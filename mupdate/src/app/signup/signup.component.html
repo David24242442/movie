@@ -1,0 +1,124 @@
+<div class="w-full m-0 auto">
+    <div class="w-full min-h-screen flex flex-wrap justify-center items-center p-4 bg-gradient-to-br from-purple-300 via-pink-300 to-blue-300">
+      <div class="w-[960px] bg-white rounded-lg overflow-hidden flex flex-wrap justify-between p-8 md:p-16">
+        <!-- Image Section -->
+        <div class="w-[316px] hidden md:block">
+          <img src="assets/images/img-01.png" alt="IMG" class="max-w-full rounded-lg ">
+        </div>
+        
+         
+
+        <!-- Form Section -->
+        <form [formGroup]="loginForm" class="w-full md:w-[290px]">
+          <h1 class="text-2xl text-gray-800 text-center font-bold mb-14">
+            Member Login
+          </h1>
+
+          <div *ngIf="showValidationMessages">
+            <div *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched" 
+              class="text-red-500">Username is required</div>
+                 
+            <div *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched" 
+                 class="text-red-500">Email is required</div>
+            <div *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched" 
+              class="text-red-500">Please enter a valid email</div>
+                 
+            <div *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" 
+              class="text-red-500">Password is required</div>
+                 
+            <div *ngIf="loginForm.get('confirmpassword')?.errors?.['required'] && loginForm.get('confirmpassword')?.touched" 
+              class="text-red-500">Confirm password is required</div>
+                 
+            <div *ngIf="loginForm.get('password')?.value !== loginForm.get('confirmpassword')?.value" 
+              class="text-red-500">Passwords do not match</div>
+        </div>  
+          <div *ngIf="errorMessage" class="text-red-500 text-center mb-4">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Email Input -->
+          <div class="relative w-full flex flex-col gap-4 mb-4">
+            <input
+            id="username"
+            name="username"
+            type="username"
+            formControlName="username"
+            class="w-full h-[50px] bg-gray-200 rounded-full pl-8 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            placeholder="username"
+            (focus)="hideValidation('username')"
+          >
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              formControlName="email"
+              class="w-full h-[50px] bg-gray-200 rounded-full pl-8 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              placeholder="Email"
+              (focus)="hideValidation('email')"
+            >
+            <span class="absolute left-8 top-1/2 -translate-y-1/2 text-gray-600">
+              <i class="fa fa-envelope"></i>
+            </span>
+          </div>
+  
+          <!-- Password Input -->
+          <div class="relative w-full space-y-4">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              formControlName="password"
+              class="w-full h-[50px] bg-gray-200 rounded-full pl-8 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 "
+              placeholder="Password"
+              (focus)="hideValidation('password')"
+            >
+            <input
+            id="password"
+            name="password"
+            type="password"
+            formControlName="confirmpassword"
+            class="w-full h-[50px] bg-gray-200 rounded-full pl-8 pr-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            placeholder="confirm Password"
+            (focus)="hideValidation('password')"
+          >
+            <span class="absolute left-8 top-1/2 -translate-y-1/2 text-gray-600">
+              <i class="fa fa-lock"></i>
+            </span>
+          </div>
+  
+          <!-- Login Button -->
+          <div class="w-full mt-6">
+            <button
+            type="submit"
+            (click)="onSubmit()"
+             class="w-full h-[50px] bg-blue-500 hover:bg-gray-800 text-white rounded-full uppercase font-bold transition-colors duration-300">
+              Login
+            </button>
+          </div>
+  
+          <!-- Forgot Password -->
+          <div class="text-center mt-4">
+            <span class="text-sm text-gray-400">Forgot</span>
+            <a [routerLink]="[]" class="text-sm text-gray-600 hover:text-green-500 transition-colors duration-300">
+              Username / Password?
+            </a>
+          </div>
+  
+          <!-- Create Account -->
+          <div class="text-center mt-32">
+            <a [routerLink]="['/signin']" class="text-sm text-gray-600 hover:text-green-500 transition-colors duration-300 flex items-center justify-center">
+              SignIN
+              <i class="fa fa-long-arrow-right ml-2"></i>
+            </a>
+          </div>
+
+          <div *ngIf="progressbar" class="card relative justify-center mt-32">
+            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"/>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

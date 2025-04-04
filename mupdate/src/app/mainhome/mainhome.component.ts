@@ -6,15 +6,16 @@ import { RouterModule } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-homepage',
+  selector: 'app-mainhome',
   standalone: true,
   imports: [CommonModule, RouterModule, AvatarModule, RatingModule, FormsModule],
-  templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  templateUrl: './mainhome.component.html',
+  styleUrls: ['./mainhome.component.css']
 })
-export class HomepageComponent implements OnInit, AfterViewInit {
+export class MainhomeComponent implements OnInit, AfterViewInit {
   value!: number;
   username: string | null = null;
 
@@ -29,9 +30,29 @@ export class HomepageComponent implements OnInit, AfterViewInit {
     { imageUrl: 'assets/images/m4.png', title: 'Slide 6', description: 'Description for Slide 6' },
   ];
 
-  constructor() {}
+  movies = [
+    { image: 'assets/images/m1.png', title: 'Movie 1' },
+    { image: 'assets/images/m4.png', title: 'Movie 2' },
+    { image: 'assets/images/m3.png', title: 'Movie 3' },
+    { image: 'assets/images/m5.png', title: 'Movie 4' },
+    { image: 'assets/images/m6.png', title: 'Movie 5' },
+    { image: 'assets/images/m3.png', title: 'Movie 6' },
+    { image: 'assets/images/m1.png', title: 'Movie 7' },
+    { image: 'assets/images/m1.png', title: 'Movie 8' },
+  ];
 
-  ngOnInit() {}
+  constructor(private service: UserService) {}
+
+  ngOnInit() {
+    this.service.username$.subscribe((username) => {
+      this.username = username || 'Guest';
+    });
+
+    const currentUsername: string | null = this.service.getUsername();
+    if (currentUsername) {
+      this.username = currentUsername;
+    }
+  }
 
   ngAfterViewInit(): void {
     new Swiper(this.swiperContainer.nativeElement, {

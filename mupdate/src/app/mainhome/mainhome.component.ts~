@@ -1,0 +1,105 @@
+import { Component , OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import Swiper from 'swiper';
+import { Navigation, Pagination,Mousewheel , Autoplay} from 'swiper/modules';
+import { RouterModule } from '@angular/router';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { RatingModule } from 'primeng/rating';
+import { FormsModule } from '@angular/forms';
+import { UserService } from '../user.service';
+
+
+@Component({
+  selector: 'app-mainhome',
+  standalone: true,
+  imports: [CommonModule, RouterModule, AvatarModule, AvatarGroupModule, RatingModule , FormsModule],
+  templateUrl: './mainhome.component.html',
+  styleUrl: './mainhome.component.css'
+})
+export class MainhomeComponent implements OnInit, AfterViewInit {
+  value!: number;
+  username: string | null = null;
+
+  @ViewChild('swiperContainer') swiperContainer!: ElementRef;
+
+  slides = [
+    {
+      imageUrl: 'assets/images/m5.png',
+      title: 'Slide 1',
+      description: 'Description for Slide 1',
+    },
+    {
+      imageUrl: 'assets/images/m1.png',
+      title: 'Slide 2',
+      description: 'Description for Slide 2',
+    },
+    {
+      imageUrl: 'assets/images/m4.png',
+      title: 'Slide 3',
+      description: 'Description for Slide 3',
+    },
+    {
+      imageUrl: 'assets/images/m5.png',
+      title: 'Slide 1',
+      description: 'Description for Slide 1',
+    },
+    {
+      imageUrl: 'assets/images/m1.png',
+      title: 'Slide 2',
+      description: 'Description for Slide 2',
+    },
+    {
+      imageUrl: 'assets/images/m4.png',
+      title: 'Slide 3',
+      description: 'Description for Slide 3',
+    },
+  ];
+
+  constructor(private service: UserService) {}
+
+  ngOnInit() {
+    this.service.username$.subscribe((username) => {
+      this.username = username || 'Guest';
+    });
+
+    const currentUsername: string | null = this.service.getUsername();
+    if (currentUsername) {
+      this.username = currentUsername;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    new Swiper(this.swiperContainer.nativeElement, {
+      modules: [Navigation, Pagination, Mousewheel, Autoplay],
+      effect: 'mousewheel',
+
+      slidesPerView: 3,
+      spaceBetween: 10,
+      loop: true,
+
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+        scale: 1.2,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+      autoplay: {
+        delay: 2000,
+        disableOnInteraction: false,
+        reverseDirection: true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+  }
+}

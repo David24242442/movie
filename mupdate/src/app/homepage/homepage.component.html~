@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie App</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+</head>
+<body class="bg-gray-900 text-white">
+<div class="container mx-auto px-4">
+  <header class="flex justify-between items-center py-4">
+    <h1 class="text-2xl font-bold">Movies</h1>
+    <form id="search-form" class="flex space-x-2">
+      <input type="text" id="search-input" placeholder="Search movies..." class="px-3 py-2 rounded bg-gray-800 text-white border border-gray-700">
+      <button type="submit" class="px-4 py-2 bg-blue-600 rounded text-white hover:bg-blue-700">Search</button>
+    </form>
+    <div class="user-profile flex items-center space-x-2">
+      <a href="/signin" class="flex items-center space-x-2">
+        <img src="assets/user-icon.png" alt="User" class="w-8 h-8 rounded-full">
+        <span id="username">Guest</span>
+      </a>
+    </div>
+  </header>
+
+  <section id="movie-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4"></section>
+
+  <section class="py-8">
+    <h2 class="text-xl font-bold mb-4">Popular Movies</h2>
+    <div class="swiper-container">
+      <div class="swiper-wrapper" id="featured-movies"></div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </section>
+
+  <section class="py-8">
+    <h2 class="text-xl font-bold mb-4">Streaming Services</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div class="service-card bg-gray-800 p-4 rounded-lg text-center">
+        <a href="/signin">
+          <img src="assets/images/netflix.png" alt="Netflix" class="w-full rounded-md">
+        </a>
+        <p class="text-gray-400 text-sm mt-2">Stream a wide variety of movies and shows.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-4 flex justify-center space-x-4">
+    <a href="/signin" class="px-4 py-2 bg-blue-600 rounded text-white hover:bg-blue-700">Sign In</a>
+    <a href="/signup" class="px-4 py-2 bg-green-600 rounded text-white hover:bg-green-700">Sign Up</a>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+  const movies = [
+      { title: "Movie 1", img: "assets/images/m1.png", rating: "⭐️⭐️⭐️⭐️☆" },
+      { title: "Movie 2", img: "assets/images/m4.png", rating: "⭐️⭐️⭐️⭐️☆" }
+  ];
+
+  const featuredMovies = [
+      { title: "Featured 1", img: "assets/images/featured1.png", desc: "A great movie." },
+      { title: "Featured 2", img: "assets/images/featured2.png", desc: "Exciting adventure." },
+      { title: "Featured 3", img: "assets/images/featured3.png", desc: "Must watch!" }
+  ];
+
+  function loadMovies() {
+      const movieGrid = document.getElementById("movie-grid");
+      movieGrid.innerHTML = movies.map(movie => `
+          <div class="movie-card bg-gray-800 p-4 rounded-lg">
+              <img src="${movie.img}" alt="${movie.title}" class="w-full rounded-md">
+              <h2 class="text-lg font-semibold mt-2">${movie.title}</h2>
+              <div class="text-yellow-400">${movie.rating}</div>
+          </div>
+      `).join("");
+  }
+
+  function loadFeaturedMovies() {
+      const featuredContainer = document.getElementById("featured-movies");
+      featuredContainer.innerHTML = featuredMovies.map(movie => `
+          <div class="swiper-slide bg-gray-800 p-4 rounded-lg min-w-[250px]">
+              <img src="${movie.img}" alt="${movie.title}" class="w-full rounded-md">
+              <h3 class="mt-2">${movie.title}</h3>
+              <p class="text-gray-400 text-sm">${movie.desc}</p>
+          </div>
+      `).join("");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+      loadMovies();
+      loadFeaturedMovies();
+
+      new Swiper('.swiper-container', {
+          loop: true,
+          autoplay: { delay: 3000, disableOnInteraction: false },
+          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+          pagination: { el: '.swiper-pagination', clickable: true },
+          slidesPerView: 3,
+          spaceBetween: 20,
+          breakpoints: {
+              640: { slidesPerView: 1, spaceBetween: 10 },
+              768: { slidesPerView: 2, spaceBetween: 15 },
+              1024: { slidesPerView: 3, spaceBetween: 20 }
+          }
+      });
+  });
+</script>
+</body>
+</html>
